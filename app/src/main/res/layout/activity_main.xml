@@ -54,18 +54,19 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Salvar"
         android:onClick="save"
+        android:text="Salvar"
         app:layout_constraintBottom_toTopOf="@+id/nomeArquivo"
         app:layout_constraintEnd_toEndOf="@+id/nomeArquivo" />
 
     <Button
-        android:id="@+id/btAbrir"
+        android:id="@+id/btNovo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="108dp"
+        android:layout_marginEnd="96dp"
         android:layout_marginBottom="8dp"
-        android:text="Abrir"
+        android:text="Novo"
         app:layout_constraintBottom_toTopOf="@+id/nomeArquivo"
         app:layout_constraintEnd_toEndOf="@+id/nomeArquivo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

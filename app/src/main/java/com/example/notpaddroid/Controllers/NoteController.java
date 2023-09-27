@@ -1,5 +1,6 @@
 package com.example.notpaddroid.Controllers;
 
+import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
@@ -10,40 +11,22 @@ import java.util.List;
 
 
 public class NoteController {
-    public static String salvar(){
-
-        String conteudo = "conteudooooo";
-        String nome = "arquivo";
-
-        try {
-            File diretorio = new File(Environment.getExternalStorageDirectory(),"Download");
-
-            File arquivo = new File(diretorio, nome+".txt");
-
-            FileOutputStream writer = new FileOutputStream(arquivo);
-            writer.write(conteudo.getBytes());
-            writer.close();
-            return "Salvo com sucesso";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Erro em salvar "+e.getMessage();
-        }
-    }
-
-    public List<File> abrirArquivos(){
-        List<File> arq = new ArrayList<>();
-        File pasta = new File("");
-        try{
-            File[] arquivos  = pasta.listFiles();
-            for (File arquivo : arquivos){
-                arq.add(arquivo);
+        public static void saveToFile(Context context, String fileName, String content) {
+            FileOutputStream fos = null;
+            try {
+                fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+                fos.write(content.getBytes());
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (fos != null) {
+                        fos.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            return arq;
-        }catch (NullPointerException e) {
-            e.printStackTrace();
         }
-        return null;
-    }
-
-
 }
