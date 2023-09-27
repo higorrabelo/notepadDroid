@@ -1,42 +1,49 @@
 package com.example.notpaddroid;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
-import android.content.DialogInterface;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
 
 import com.example.notpaddroid.Controllers.NoteController;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText texto;
-    private EditText conteudo;
-    private NoteController cont = new NoteController();
+    private boolean status = true;
+    private static final int PERMISSAO_ESCRITA_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.arquivo_activity);
+        setContentView(R.layout.activity_main);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Se não estiver concedida, solicite a permissão ao usuário
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSAO_ESCRITA_REQUEST);
+        } else {
+            // A permissão já foi concedida, você pode continuar com a operação de salvamento de arquivos.
+        }
     }
     public void save(View view){
-        AlertDialog.Builder alerta = new AlertDialog.Builder(this);
-        FileOutputStream fs = null;
-        EditText nome = findViewById(R.id.nomeArquivo);
+        EditText titulo = findViewById(R.id.nomeArquivo);
         EditText conteudo = findViewById(R.id.areaTexto);
-        NoteController.saveToFile(this,nome.getText().toString(),conteudo.getText().toString());
-        alerta.setMessage("Salvo com sucesso");
+        String nota = NoteController.salvarArquivo(titulo.getText().toString(),conteudo.getText().toString());
+        AlertDialog.Builder alerta = new AlertDialog.Builder(this);
+        alerta.setMessage(nota);
+        alerta.setTitle("Alerta");
         alerta.show();
     }
     public void abrir(View view){
-        setContentView(R.layout.activity_main);
+    }
+    public void listar(View view){
+    }
+    public void gerenciador(View view){
     }
 
 }
